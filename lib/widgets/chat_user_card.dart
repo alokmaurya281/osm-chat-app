@@ -96,7 +96,7 @@ class _ChatUserCardWidgetState extends State<ChatUserCardWidget> {
               ),
               trailing: Column(
                 children: [
-                  _message != null
+                  _message != null && _message!.read.isEmpty
                       ? Container(
                           width: 20,
                           height: 20,
@@ -105,7 +105,7 @@ class _ChatUserCardWidgetState extends State<ChatUserCardWidget> {
                               borderRadius: BorderRadius.circular(100)),
                           child: const Text(
                             '',
-                            style:  TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
