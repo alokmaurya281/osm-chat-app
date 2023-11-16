@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "468365634295",
+    "project_id": "osm-chat-f2de7",
+    "storage_bucket": "osm-chat-f2de7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468365634295:android:b55f4fadf2a3462e65c1f2",
+        "android_client_info": {
+          "package_name": "com.example.osm_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468365634295-ia7djp80fbul2eer5fn7smm7l8dq4ct1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.osm_chat",
+            "certificate_hash": "0ac07afa1b4f91b687ce7f043aaf85350e2a633a"
+          }
+        },
+        {
+          "client_id": "468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpEsedjrntUwO9aQlmD44ITx0wyLrR6C4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "468365634295-rjbvksopqoqr4bicnkbl6jev1gg11oi9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.osmChat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
