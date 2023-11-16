@@ -40,8 +40,8 @@ class APIS {
         body: jsonEncode({
           'to': chatUser.pushToken,
           'notification': {
-            'title': chatUser.name,
-            'body': msg,
+            'title': auth.currentUser!.displayName,
+            'body': 'New Message : $msg',
             "android_channel_id": "chats",
           }
         }),
@@ -49,7 +49,7 @@ class APIS {
 
       final Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200) {
-        print(data);
+        // print(auth.currentUser!.displayName);
       } else {
         print('something is wrong');
       }
