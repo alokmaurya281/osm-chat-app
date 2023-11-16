@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -12,6 +11,7 @@ import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/dialogs/edit_message_dialog.dart';
 import 'package:osm_chat/widgets/option_items_message_tap.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_player/video_player.dart';
 
 class MessageCard extends StatefulWidget {
   final Message message;
@@ -25,7 +25,7 @@ class MessageCard extends StatefulWidget {
 }
 
 class _MessageCardState extends State<MessageCard> {
-  late CachedVideoPlayerController controller;
+  late VideoPlayerController controller;
   bool isPlaying = false;
 
   void handleSaveButton() async {
@@ -290,7 +290,8 @@ class _MessageCardState extends State<MessageCard> {
       }
     }
 
-    controller = CachedVideoPlayerController.network(widget.message.message);
+    controller =
+        VideoPlayerController.networkUrl(Uri.parse(widget.message.message));
     controller.initialize().then((value) {});
     return Container(
       width: 250,
@@ -309,9 +310,8 @@ class _MessageCardState extends State<MessageCard> {
           });
         },
         child: Center(
-            child: isPlaying
-                ? CachedVideoPlayer(controller)
-                : CachedVideoPlayer(controller)),
+            child:
+                isPlaying ? VideoPlayer(controller) : VideoPlayer(controller)),
       ),
     );
   }
