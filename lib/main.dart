@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_notification_channel/notification_visibility.dart';
@@ -119,6 +120,7 @@ _initializeFirebase() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+ await dotenv.load(fileName: ".env");
  await FlutterNotificationChannel.registerNotificationChannel(
     description: 'For showing Chat messages',
     id: 'chats',

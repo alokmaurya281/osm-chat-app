@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +35,7 @@ class APIS {
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization':
-              'key=AAAAbQzEavc:APA91bGJf-q-4l6vD_tRgvkseM8JcJ31-IRHMHmOfROaN9Q6wawwNIfTx1G86X7J0pnl_yXdoRAyO22koMLaw9XE1iUwmX8J1Xl1k0Vik_VlItERGoi9Lua8T6nBYAA5S1q08FpY2Kpd',
+          'Authorization': 'key=${dotenv.env["FIREBASE_MESSAGING_KEY"]}',
         },
         body: jsonEncode({
           'to': chatUser.pushToken,
