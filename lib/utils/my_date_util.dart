@@ -15,7 +15,10 @@ class MyDateUtil {
         now.year == sentTime.year) {
       return TimeOfDay.fromDateTime(sentTime).format(context);
     }
-    return '${sentTime.day} ${getMonthString(sentTime.month).substring(0, 3)}';
+    if (now.day != sentTime.day && now.year == sentTime.year) {
+      return '${sentTime.day} ${getMonthString(sentTime.month).substring(0, 3)}';
+    }
+    return '${sentTime.day} ${getMonthString(sentTime.month).substring(0, 3)} ${sentTime.year}';
   }
 
   static String getDateYear(BuildContext context, String time) {
@@ -26,6 +29,9 @@ class MyDateUtil {
         now.month == sentTime.month &&
         now.year == sentTime.year) {
       return TimeOfDay.fromDateTime(sentTime).format(context);
+    }
+    if (now.day != sentTime.day && now.year == sentTime.year) {
+      return '${sentTime.day} ${getMonthString(sentTime.month).substring(0, 3)}';
     }
     return '${sentTime.day} ${getMonthString(sentTime.month).substring(0, 3)} ${sentTime.year}';
   }
@@ -44,7 +50,7 @@ class MyDateUtil {
         now.year == lasttime.year) {
       return 'Last seen today at $formattedTime';
     }
-    if ((now.difference(lasttime).inHours / 24).round() == 1) {
+    if ((now.difference(lasttime).inHours).round() == 1) {
       return 'Last seen yesterday at $formattedTime';
     }
 

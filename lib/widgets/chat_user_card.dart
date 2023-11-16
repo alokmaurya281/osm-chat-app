@@ -96,25 +96,27 @@ class _ChatUserCardWidgetState extends State<ChatUserCardWidget> {
               ),
               trailing: Column(
                 children: [
-                  _message != null && _message!.read.isEmpty
+                  _message != null &&
+                          _message!.read.isEmpty &&
+                          APIS.user.uid == _message!.recieverid
                       ? Container(
-                          width: 20,
-                          height: 20,
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Colors.red,
                               borderRadius: BorderRadius.circular(100)),
-                          child: const Text(
-                            '',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          child: const Icon(
+                            Icons.notifications_active,
+                            size: 20,
+                            color: Colors.white,
                           ),
                         )
                       : const SizedBox(
                           height: 10,
                         ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Text(
                     _message != null
                         ? MyDateUtil.getLastMessageTime(context, _message!.sent)
