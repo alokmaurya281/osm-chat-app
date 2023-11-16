@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/dialogs/edit_message_dialog.dart';
 import 'package:osm_chat/widgets/option_items_message_tap.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MessageCard extends StatefulWidget {
   final Message message;
@@ -20,15 +25,91 @@ class MessageCard extends StatefulWidget {
 }
 
 class _MessageCardState extends State<MessageCard> {
-  // Future<void> generateAutoVideoThumb(video) async {
-  //   final temp = 'assets/videos';
-  //   final fileName = await VideoThumbnail.thumbnailFile(
-  //     video: video.path,
-  //     thumbnailPath: '$temp/${video.name}thum',
-  //     imageFormat: ImageFormat.PNG,
-  //     quality: 100,
-  //   );
-  // }
+  late CachedVideoPlayerController controller;
+  bool isPlaying = false;
+
+  void handleSaveButton() async {
+    final status = await Permission.manageExternalStorage.status;
+    if (status.isDenied) {
+      await Permission.manageExternalStorage.request();
+    }
+    if (widget.message.type == 'image') {
+      if (await Directory('storage/emulated/0/OsmChat/images/').exists()) {
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/images/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true
+          // click on notification to open downloaded file (for Android)
+        );
+      } else {
+        await Directory('storage/emulated/0/OsmChat/images')
+            .create(recursive: true);
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/images/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true,
+        );
+      }
+    } else if (widget.message.type == 'video') {
+      if (await Directory('storage/emulated/0/OsmChat/videos/').exists()) {
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/videos/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true
+          // click on notification to open downloaded file (for Android)
+        );
+      } else {
+        await Directory('storage/emulated/0/OsmChat/videos/')
+            .create(recursive: true);
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/videos/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true,
+        );
+      }
+    } else {
+      if (await Directory('storage/emulated/0/OsmChat/other/').exists()) {
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/other/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true
+          // click on notification to open downloaded file (for Android)
+        );
+      } else {
+        await Directory('storage/emulated/0/OsmChat/other/')
+            .create(recursive: true);
+        final taskId = await FlutterDownloader.enqueue(
+          url: widget.message.message,
+          headers: {}, // optional: header send with url (auth token etc)
+          savedDir: '/storage/emulated/0/OsmChat/other/',
+          showNotification:
+              true, // show download progress in status bar (for Android)
+          openFileFromNotification: true,
+          // saveInPublicStorage: true,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +135,23 @@ class _MessageCardState extends State<MessageCard> {
             padding: const EdgeInsets.all(8),
             margin: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-                color: Colors.blue.shade200,
+                color: Colors.green.shade200,
                 borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
-                ),
+                    bottomRight: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
                 border: Border.all(
                   width: 2,
-                  color: Colors.blue,
+                  color: Colors.green,
                 )),
             child: widget.message.type != 'text'
-                ? _chatImage()
+                ? widget.message.type == 'video'
+                    ? _chatVideo()
+                    : widget.message.type != 'video' &&
+                            widget.message.type != 'image' &&
+                            widget.message.type != 'text'
+                        ? _otherMedia()
+                        : _chatImage()
                 : Text(
                     widget.message.message,
                     style: const TextStyle(
@@ -130,7 +216,11 @@ class _MessageCardState extends State<MessageCard> {
             child: widget.message.type != 'text'
                 ? widget.message.type == 'video'
                     ? _chatVideo()
-                    : _chatImage()
+                    : widget.message.type != 'video' &&
+                            widget.message.type != 'image' &&
+                            widget.message.type != 'text'
+                        ? _otherMedia()
+                        : _chatImage()
                 : Text(
                     widget.message.message,
                     style: const TextStyle(
@@ -192,7 +282,55 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   Widget _chatVideo() {
-    return Container();
+    void playAndPause() {
+      if (isPlaying) {
+        controller.play();
+      } else {
+        controller.pause();
+      }
+    }
+
+    controller = CachedVideoPlayerController.network(widget.message.message);
+    controller.initialize().then((value) {});
+    return Container(
+      width: 250,
+      height: 350,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            isPlaying = !isPlaying;
+            playAndPause();
+          });
+        },
+        onTapCancel: () {
+          setState(() {
+            isPlaying = !isPlaying;
+            playAndPause();
+          });
+        },
+        child: Center(
+            child: isPlaying
+                ? CachedVideoPlayer(controller)
+                : CachedVideoPlayer(controller)),
+      ),
+    );
+  }
+
+  Widget _otherMedia() {
+    return Container(
+      width: 250,
+      height: 250,
+      child: const Center(
+          child: Text(
+        'Preview Not Availbale! Download To view',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Color.fromARGB(221, 107, 107, 107),
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      )),
+    );
   }
 
   void mediaModalBottomSheet() {
@@ -232,27 +370,8 @@ class _MessageCardState extends State<MessageCard> {
                           ),
                           name: 'Save',
                           onTap: () async {
-                            //       final Directory appDirectory = await getApplicationDocumentsDirectory();
-                            //       final String filePath = '${appDirectory.path}/${widget.message.senderId}.${widget.message.type}';
-                            // //You can download a single file
-                            // Dialogs.showProgressIndicator(context);
-                            // await FileDownloader.downloadFile(
-                            //     url: widget.message.message,
-                            //     // name: widget.message.message,
-                            //     notificationType: NotificationType
-                            //         .all, //THE FILE NAME AFTER DOWNLOADING,
-                            //     onProgress: (name, double progress) {
-                            //       print('FILE fileName HAS PROGRESS $progress');
-                            //     },
-                            //     onDownloadCompleted: (String path) {
-                            //       print('FILE DOWNLOADED TO PATH: $path');
-                            //     },
-                            //     onDownloadError: (String error) {
-                            //       print('DOWNLOAD ERROR: $error');
-                            //     }).then((value) => {
-                            //       Navigator.pop(context),
-                            //       Navigator.pop(context),
-                            //     });
+                            handleSaveButton();
+                            Navigator.pop(context);
                           },
                         ),
                   if (APIS.user.uid == widget.message.senderId)

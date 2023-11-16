@@ -9,8 +9,10 @@ import 'package:osm_chat/providers/chat_provider.dart';
 import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:osm_chat/screens/home_screen.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,9 +121,19 @@ _initializeFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // var status = await Permission.storage.status;
+  // if (!status.isGranted) {
+  //   await Permission.manageExternalStorage.request();
+  // }
+  await FlutterDownloader.initialize(
+      debug:
+          true, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl:
+          true // option: set to false to disable working with http links (default: false)
+      );
 
- await dotenv.load(fileName: ".env");
- await FlutterNotificationChannel.registerNotificationChannel(
+  await dotenv.load(fileName: ".env");
+  await FlutterNotificationChannel.registerNotificationChannel(
     description: 'For showing Chat messages',
     id: 'chats',
     importance: NotificationImportance.IMPORTANCE_HIGH,

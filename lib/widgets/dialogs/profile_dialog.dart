@@ -15,8 +15,8 @@ class ProfileDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.background,
       content: SizedBox(
-        width: 200,
-        height: 200,
+        width: 300,
+        height: 300,
         child: Stack(
           children: [
             Text(
@@ -49,8 +49,8 @@ class ProfileDialog extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                width: 150,
-                height: 150,
+                width: 270,
+                height: 270,
                 child: CircleAvatar(
                   backgroundImage: CachedNetworkImageProvider(user.image),
                 ),

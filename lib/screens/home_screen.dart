@@ -35,11 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<ChatUser> list = [];
   final List<ChatUser> searchList = [];
+
   bool isSearching = false;
   @override
   void initState() {
     super.initState();
     APIS.selfInfo();
+    // getPermissions();
     SystemChannels.lifecycle.setMessageHandler((message) async {
       if (APIS.auth.currentUser != null) {
         if (message.toString().contains('resume')) {
