@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
@@ -40,8 +41,9 @@ class APIS {
         body: jsonEncode({
           'to': chatUser.pushToken,
           'notification': {
-            'title': auth.currentUser!.displayName,
+            'title': me.name,
             'body': 'New Message : $msg',
+            'icon': me.image,
             "android_channel_id": "chats",
           }
         }),
@@ -49,7 +51,7 @@ class APIS {
 
       final Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200) {
-        // print(auth.currentUser!.displayName);
+        print(data);
       } else {
         print('something is wrong');
       }

@@ -60,40 +60,40 @@ class MyDateUtil {
   static String getMonthString(num) {
     var month; //Create a local variable to hold the string
     switch (num) {
-      case 0:
+      case 1:
         month = "January";
         break;
-      case 1:
+      case 2:
         month = "February";
         break;
-      case 2:
+      case 3:
         month = "March";
         break;
-      case 3:
+      case 4:
         month = "April";
         break;
-      case 4:
+      case 5:
         month = "May";
         break;
-      case 5:
+      case 6:
         month = "June";
         break;
-      case 6:
+      case 7:
         month = "July";
         break;
-      case 7:
+      case 8:
         month = "August";
         break;
-      case 8:
+      case 9:
         month = "September";
         break;
-      case 9:
+      case 10:
         month = "October";
         break;
-      case 10:
+      case 11:
         month = "November";
         break;
-      case 11:
+      case 12:
         month = "December";
         break;
       default:

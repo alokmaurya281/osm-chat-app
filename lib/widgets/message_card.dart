@@ -127,6 +127,7 @@ class _MessageCardState extends State<MessageCard> {
     if (widget.message.read.isEmpty) {
       APIS.updateReadStatusMessage(widget.message);
     }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -317,10 +318,10 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   Widget _otherMedia() {
-    return Container(
+    return const SizedBox(
       width: 250,
       height: 250,
-      child: const Center(
+      child: Center(
           child: Text(
         'Preview Not Availbale! Download To view',
         textAlign: TextAlign.center,
