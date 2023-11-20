@@ -11,6 +11,7 @@ import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/providers/chat_provider.dart';
 import 'package:osm_chat/screens/chat_user_profile_view.dart';
+import 'package:osm_chat/screens/video_call_screen.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/message_card.dart';
@@ -468,38 +469,44 @@ class _ChatScreenState extends State<ChatScreen> {
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.call,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.video_call,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.more_vert,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     GestureDetector(
+                    //       child: const Icon(
+                    //         Icons.call,
+                    //         size: 20,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 12,
+                    //     ),
+                    //     GestureDetector(
+                    //       onTap: () {
+                    //         // Navigator.push(context,
+                    //         //     MaterialPageRoute(builder: (context) {
+                    //         //   return VideoCallScreen();
+                    //         // }));
+                    //       },
+                    //       child: const Icon(
+                    //         Icons.video_call,
+                    //         size: 20,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 12,
+                    //     ),
+                    //     GestureDetector(
+                    //       child: const Icon(
+                    //         Icons.more_vert,
+                    //         size: 20,
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 16,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 );
               }),

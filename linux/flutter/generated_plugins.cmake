@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   emoji_picker_flutter
   file_selector_linux
-  record_linux
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
