@@ -9,7 +9,9 @@ import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/dialogs/edit_message_dialog.dart';
+import 'package:osm_chat/widgets/image_view_widget.dart';
 import 'package:osm_chat/widgets/option_items_message_tap.dart';
+import 'package:osm_chat/widgets/video_player_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 
@@ -263,22 +265,31 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   Widget _chatImage() {
-    return CachedNetworkImage(
-      imageUrl: widget.message.message,
-      placeholder: (context, url) {
-        return const Center(
-          child: CircularProgressIndicator.adaptive(),
-        );
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ImageViewWidget(message: widget.message.message);
+            });
       },
-      errorWidget: (context, url, child) {
-        return const Icon(
-          Icons.image,
-          size: 80,
-        );
-      },
-      fit: BoxFit.cover,
-      width: 250,
-      height: 250,
+      child: CachedNetworkImage(
+        imageUrl: widget.message.message,
+        placeholder: (context, url) {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        },
+        errorWidget: (context, url, child) {
+          return const Icon(
+            Icons.image,
+            size: 80,
+          );
+        },
+        fit: BoxFit.cover,
+        width: 250,
+        height: 250,
+      ),
     );
   }
 
@@ -299,16 +310,13 @@ class _MessageCardState extends State<MessageCard> {
       height: 350,
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            isPlaying = !isPlaying;
-            playAndPause();
-          });
-        },
-        onTapCancel: () {
-          setState(() {
-            isPlaying = !isPlaying;
-            playAndPause();
-          });
+          showDialog(
+              context: context,
+              builder: (context) {
+                return VideoPlayerWidget(
+                  playerUrl: widget.message.message,
+                );
+              });
         },
         child: Center(
             child:

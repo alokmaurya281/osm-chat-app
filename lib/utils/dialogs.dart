@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 class Dialogs {
   static void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
-
-  
 
   static void showProgressIndicator(BuildContext context) {
     showDialog(
