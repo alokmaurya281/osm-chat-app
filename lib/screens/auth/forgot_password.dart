@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:osm_chat/screens/home_screen.dart';
+import 'package:osm_chat/utils/dialogs.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -9,6 +12,16 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  TextEditingController emailController = TextEditingController();
+  _forgotPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Dialogs.showSnackBar(context, 'Reset Email Sent!');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +77,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    controller: emailController,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
@@ -82,14 +96,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   width: 400,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const HomeScreen();
-                          },
-                        ),
-                      );
+                    onPressed: () async {
+                      if (emailController.text.isNotEmpty) {
+                        Dialogs.showProgressIndicator(context);
+                        await _forgotPassword(emailController.text);
+                        Navigator.pop(context);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return LoginScreen();
+                        }));
+                      } else {
+                        Dialogs.showSnackBar(context, 'Email Required');
+                      }
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:osm_chat/screens/home_screen.dart';
+import 'package:osm_chat/utils/dialogs.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -10,6 +14,31 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  _handleEmailPasswordSignup(String email, String password) async {
+    try {
+      await InternetAddress.lookup('google.com');
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on SocketException catch (e) {
+      print("SocketException: $e");
+      Dialogs.showSnackBar(context, 'Please Connect to internet');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Dialogs.showSnackBar(context, 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        Dialogs.showSnackBar(context,
+            'The account already exists Or if you have logged in using google then change password or use same login method!');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    controller: emailController,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
@@ -78,6 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    controller: passwordController,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
@@ -97,14 +128,23 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: 400,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const HomeScreen();
-                          },
-                        ),
-                      );
+                    onPressed: () async {
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        Dialogs.showProgressIndicator(context);
+                        await _handleEmailPasswordSignup(
+                            emailController.text, passwordController.text);
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const LoginScreen();
+                            },
+                          ),
+                        );
+                      } else {
+                        Dialogs.showSnackBar(context, "All Fields Required!");
+                      }
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,

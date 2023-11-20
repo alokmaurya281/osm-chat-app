@@ -261,6 +261,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           final List<XFile> medias =
                               await picker.pickMultipleMedia();
                           Dialogs.showProgressIndicator(context);
+                          Navigator.pop(context);
+
                           for (var element in medias) {
                             setState(() {
                               pickedImage = element.path;
@@ -268,7 +270,6 @@ class _ChatScreenState extends State<ChatScreen> {
                             await APIS.sendChatMedia(
                                 widget.user, File(pickedImage!), 'document');
                           }
-                          Navigator.pop(context);
                           Navigator.pop(context);
                         },
                         child: Image.asset(
@@ -303,6 +304,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           final List<XFile> medias =
                               await picker.pickMultipleMedia();
                           Dialogs.showProgressIndicator(context);
+                          Navigator.pop(context);
+
                           for (var element in medias) {
                             final ext = element.name.split('.').last;
 
@@ -322,7 +325,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                   widget.user, File(pickedImage!), 'other');
                             }
                           }
-                          Navigator.pop(context);
                           Navigator.pop(context);
                         },
                         child: Image.asset(
@@ -346,10 +348,11 @@ class _ChatScreenState extends State<ChatScreen> {
                               pickedImage = image.path;
                             });
                             Dialogs.showProgressIndicator(context);
+                            Navigator.pop(context);
+
                             await APIS.sendChatMedia(
                                 widget.user, File(pickedImage!), 'image');
 
-                            Navigator.pop(context);
                             Navigator.pop(context);
                           } else {
                             // ignore: use_build_context_synchronously

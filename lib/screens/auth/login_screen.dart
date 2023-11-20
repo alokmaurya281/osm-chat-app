@@ -19,6 +19,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+
+
   _handleGoogleLoginButton() {
     Dialogs.showProgressIndicator(context);
     signInWithGoogle().then((user) async {
@@ -40,6 +45,29 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     });
+  }
+
+  _handleEmailPasswordLogin(String email, String password) async {
+    try {
+      await InternetAddress.lookup('google.com');
+
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on SocketException catch (e) {
+      print("SocketException: $e");
+      Dialogs.showSnackBar(context, 'Please Connect to internet');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Dialogs.showSnackBar(context, 'No user found ');
+      } else if (e.code == 'wrong-password') {
+        Dialogs.showSnackBar(
+            context, 'Wrong password provided for that user. ');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<UserCredential?> signInWithGoogle() async {
@@ -113,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    controller: emailController,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
@@ -137,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    controller: passwordController,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
@@ -156,14 +186,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 400,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const HomeScreen();
-                          },
-                        ),
-                      );
+                    onPressed: () async {
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        Dialogs.showProgressIndicator(context);
+                        await _handleEmailPasswordLogin(
+                            emailController.text, passwordController.text);
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const HomeScreen();
+                            },
+                          ),
+                        );
+                      } else {
+                        Dialogs.showSnackBar(context, "All Fields Required!");
+                      }
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
