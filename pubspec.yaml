@@ -57,6 +57,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_downloader: ^1.11.4
   video_player: ^2.8.1
+  record: ^5.0.1
   # firebase_app_check: ^0.2.1+4
 
 dev_dependencies:

@@ -392,6 +392,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 final chatUserlist =
                     data?.map((e) => ChatUser.fromJson(e.data())).toList();
                 return Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -467,30 +468,38 @@ class _ChatScreenState extends State<ChatScreen> {
                         ],
                       ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(Icons.phone),
-                    //       iconSize: 20,
-                    //     ),
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(
-                    //         Icons.video_call,
-                    //       ),
-                    //       iconSize: 20,
-                    //     ),
-                    //     IconButton(
-                    //       onPressed: () {},
-                    //       icon: const Icon(
-                    //         Icons.more_vert,
-                    //       ),
-                    //       iconSize: 20,
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          child: const Icon(
+                            Icons.call,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          child: const Icon(
+                            Icons.video_call,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          child: const Icon(
+                            Icons.more_vert,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                      ],
+                    ),
                   ],
                 );
               }),
