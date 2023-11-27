@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:osm_chat/screens/home_screen.dart';
@@ -18,7 +19,9 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController passwordController = TextEditingController();
   _handleEmailPasswordSignup(String email, String password) async {
     try {
-      await InternetAddress.lookup('google.com');
+      if (!kIsWeb) {
+        await InternetAddress.lookup('google.com');
+      }
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,

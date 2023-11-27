@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/screens/auth/forgot_password.dart';
@@ -21,8 +22,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-
 
   _handleGoogleLoginButton() {
     Dialogs.showProgressIndicator(context);
@@ -49,7 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _handleEmailPasswordLogin(String email, String password) async {
     try {
-      await InternetAddress.lookup('google.com');
+      if (!kIsWeb) {
+        await InternetAddress.lookup('google.com');
+      }
 
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -72,21 +73,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      await InternetAddress.lookup('google.com');
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (!kIsWeb) {
+        await InternetAddress.lookup('google.com');
+      }
+      if (kIsWeb) {
+        GoogleAuthProvider authProvider = GoogleAuthProvider();
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithPopup(authProvider);
+        // print(userCredential);
+        return userCredential;
+      } else {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn(
+                clientId:
+                    '468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com')
+            .signIn();
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication? googleAuth =
+            await googleUser?.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      // Once signed in, return the UserCredential
-      return await APIS.auth.signInWithCredential(credential);
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+
+        // Once signed in, return the UserCredential
+        return await APIS.auth.signInWithCredential(credential);
+      }
     } on SocketException catch (e) {
       print("SocketException: $e");
       Dialogs.showSnackBar(context, 'Please Connect to internet');
@@ -143,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextFormField(
                     controller: emailController,
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,

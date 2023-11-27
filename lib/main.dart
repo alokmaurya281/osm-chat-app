@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/providers/chat_provider.dart';
 import 'package:osm_chat/screens/auth/login_screen.dart';
@@ -118,32 +120,41 @@ class _MyAppState extends State<MyApp> {
 }
 
 _initializeFirebase() async {
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+      clientId:
+          '468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com');
+
   // var status = await Permission.storage.status;
   // if (!status.isGranted) {
   //   await Permission.manageExternalStorage.request();
   // }
-  await FlutterDownloader.initialize(
-      debug:
-          true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-          true // option: set to false to disable working with http links (default: false)
-      );
+  if (!kIsWeb) {
+    await FlutterDownloader.initialize(
+        debug:
+            true, // optional: set to false to disable printing logs to console (default: true)
+        ignoreSsl:
+            true // option: set to false to disable working with http links (default: false)
+        );
+  }
 
   await dotenv.load(fileName: ".env");
-  await FlutterNotificationChannel.registerNotificationChannel(
-    description: 'For showing Chat messages',
-    id: 'chats',
-    importance: NotificationImportance.IMPORTANCE_HIGH,
-    name: 'Chats',
-    visibility: NotificationVisibility.VISIBILITY_PUBLIC,
-    allowBubbles: true,
-    enableVibration: true,
-    enableSound: true,
-    showBadge: true,
-  );
+  if (!kIsWeb) {
+    await FlutterNotificationChannel.registerNotificationChannel(
+      description: 'For showing Chat messages',
+      id: 'chats',
+      importance: NotificationImportance.IMPORTANCE_HIGH,
+      name: 'Chats',
+      visibility: NotificationVisibility.VISIBILITY_PUBLIC,
+      allowBubbles: true,
+      enableVibration: true,
+      enableSound: true,
+      showBadge: true,
+    );
+  }
 }
 
 bool _checkUserIsLoggedIn() {
