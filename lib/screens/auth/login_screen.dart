@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await InternetAddress.lookup('google.com');
       }
 
+      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,

@@ -1,24 +1,40 @@
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// ignore_for_file: unused_local_variable
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_notification_channel/flutter_notification_channel.dart';
-import 'package:flutter_notification_channel/notification_importance.dart';
-import 'package:flutter_notification_channel/notification_visibility.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
+// import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/providers/chat_provider.dart';
 import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'package:osm_chat/screens/call_invite_screen.dart';
 import 'package:osm_chat/screens/home_screen.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
 import 'firebase_options.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 
+  final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await _initializeFirebase();
+
+  ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
+  ZegoUIKit().initLog().then((value) {
+    ZegoUIKitPrebuiltCallInvitationService()
+        .useSystemCallingUI([ZegoUIKitSignalingPlugin()]);
+  });
 
   runApp(
     MultiProvider(
@@ -27,13 +43,17 @@ void main() async {
           return ChatProvider();
         })
       ],
-      child: const MyApp(),
+      child: MyApp(navigatorKey: navigatorKey),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+  const MyApp({
+    super.key,
+    required this.navigatorKey,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -44,6 +64,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final bool isLoggedIn = _checkUserIsLoggedIn();
     return MaterialApp(
+      navigatorKey: widget.navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
@@ -73,7 +94,6 @@ class _MyAppState extends State<MyApp> {
           ),
           backgroundColor: Colors.white,
           elevation: 1,
-          // backgroundColor: Color.fromARGB(255, 57, 11, 57),
         ),
         useMaterial3: true,
         primaryColor: const Color.fromARGB(255, 57, 11, 57),
@@ -101,7 +121,6 @@ class _MyAppState extends State<MyApp> {
           ),
           backgroundColor: Color.fromARGB(255, 57, 11, 57),
           elevation: 5,
-          // backgroundColor: Color.fromARGB(255, 57, 11, 57),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -120,18 +139,15 @@ class _MyAppState extends State<MyApp> {
 }
 
 _initializeFirebase() async {
-  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // ignore: no_leading_underscores_for_local_identifiers
   GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId:
           '468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com');
 
-  // var status = await Permission.storage.status;
-  // if (!status.isGranted) {
-  //   await Permission.manageExternalStorage.request();
-  // }
   if (!kIsWeb) {
     await FlutterDownloader.initialize(
         debug:
@@ -143,17 +159,29 @@ _initializeFirebase() async {
 
   await dotenv.load(fileName: ".env");
   if (!kIsWeb) {
-    await FlutterNotificationChannel.registerNotificationChannel(
-      description: 'For showing Chat messages',
-      id: 'chats',
-      importance: NotificationImportance.IMPORTANCE_HIGH,
-      name: 'Chats',
-      visibility: NotificationVisibility.VISIBILITY_PUBLIC,
-      allowBubbles: true,
-      enableVibration: true,
-      enableSound: true,
-      showBadge: true,
-    );
+    await AwesomeNotifications().initialize(null, [
+      NotificationChannel(
+        channelKey: 'calls',
+        channelName: 'Calls',
+        channelDescription: 'For calls',
+        locked: true,
+        channelShowBadge: true,
+        importance: NotificationImportance.Max,
+        enableVibration: true,
+        enableLights: true,
+        defaultRingtoneType: DefaultRingtoneType.Ringtone,
+      ),
+      NotificationChannel(
+        channelKey: 'chats',
+        channelName: 'Chats',
+        channelDescription: 'For chats',
+        channelShowBadge: true,
+        importance: NotificationImportance.Max,
+        enableVibration: true,
+        enableLights: true,
+        defaultRingtoneType: DefaultRingtoneType.Notification,
+      ),
+    ]);
   }
 }
 

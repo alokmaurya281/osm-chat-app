@@ -1,21 +1,21 @@
-// import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/providers/chat_provider.dart';
+import 'package:osm_chat/screens/call_invite_screen.dart';
 import 'package:osm_chat/screens/chat_user_profile_view.dart';
-import 'package:osm_chat/screens/video_call_screen.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/message_card.dart';
 import 'package:provider/provider.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -156,16 +156,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     cursorColor: Theme.of(context).colorScheme.onPrimary,
                     decoration: InputDecoration(
                       hintText: 'Enter Message...',
-                      // prefixIcon: GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       _showEmoji = !_showEmoji;
-                      //     });
-                      //   },
-                      //   child: const Icon(
-                      //     Icons.emoji_emotions,
-                      //   ),
-                      // ),
                       suffixIcon: GestureDetector(
                         onTap: () {
                           mediaModalBottomSheet();
@@ -356,7 +346,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
                             Navigator.pop(context);
                           } else {
-                            // ignore: use_build_context_synchronously
                             Dialogs.showSnackBar(
                                 context, 'Please select image');
                           }
@@ -369,6 +358,65 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ],
               ),
+            ),
+          );
+        });
+  }
+
+  void callsModal() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Choose Action',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ZegoSendCallInvitationButton(
+                      // buttonSize: Size(20, 20),
+                      margin: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(0),
+                      verticalLayout: true,
+                      isVideoCall: true,
+                      resourceID:
+                          "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
+                      invitees: [
+                        ZegoUIKitUser(
+                          id: widget.user.id,
+                          name: widget.user.name,
+                        ),
+                      ],
+                    ),
+                    ZegoSendCallInvitationButton(
+                      // buttonSize: Size(20, 20),
+                      margin: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(0),
+                      verticalLayout: true,
+                      isVideoCall: false,
+                      resourceID:
+                          "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
+                      invitees: [
+                        ZegoUIKitUser(
+                          id: widget.user.id,
+                          name: widget.user.name,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         });
@@ -393,7 +441,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 final chatUserlist =
                     data?.map((e) => ChatUser.fromJson(e.data())).toList();
                 return Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -469,44 +516,32 @@ class _ChatScreenState extends State<ChatScreen> {
                         ],
                       ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     GestureDetector(
-                    //       child: const Icon(
-                    //         Icons.call,
-                    //         size: 20,
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 12,
-                    //     ),
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         // Navigator.push(context,
-                    //         //     MaterialPageRoute(builder: (context) {
-                    //         //   return VideoCallScreen();
-                    //         // }));
-                    //       },
-                    //       child: const Icon(
-                    //         Icons.video_call,
-                    //         size: 20,
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 12,
-                    //     ),
-                    //     GestureDetector(
-                    //       child: const Icon(
-                    //         Icons.more_vert,
-                    //         size: 20,
-                    //       ),
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 16,
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            callsModal();
+                          },
+                          child: const Icon(
+                            Icons.call,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          child: const Icon(
+                            Icons.more_vert,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                      ],
+                    ),
                   ],
                 );
               }),

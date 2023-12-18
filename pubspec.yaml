@@ -34,6 +34,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.13.1
   google_fonts: ^6.1.0
@@ -49,17 +50,15 @@ dependencies:
   firebase_storage: ^11.5.0
   intl: ^0.18.1
   emoji_picker_flutter: ^1.6.3
-  firebase_messaging: ^14.7.4
+  firebase_messaging: ^14.7.9
   http: ^1.1.0
-  flutter_notification_channel: ^2.0.0
   path_provider: ^2.1.1
   flutter_dotenv: ^5.1.0
   flutter_downloader: ^1.11.4
   video_player: ^2.8.1
-  # agora_rtc_engine: ^6.2.4
-  # iris_method_channel: ^2.0.0-dev.3
-
-
+  zego_uikit_prebuilt_call: ^3.18.1
+  zego_uikit_signaling_plugin: ^2.7.2
+  awesome_notifications: ^0.8.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

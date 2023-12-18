@@ -1,6 +1,9 @@
 import 'dart:core';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
@@ -9,6 +12,8 @@ import 'package:osm_chat/screens/profile_screen.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/widgets/chat_user_card.dart';
 import 'package:osm_chat/widgets/dialogs/add_user_dialog.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> signout() async {
+    ZegoUIKitPrebuiltCallInvitationService().uninit();
     Dialogs.showProgressIndicator(context);
     await APIS.updateActiveStatus(false);
     await APIS.auth.signOut().then((value) async {
@@ -37,9 +43,28 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<ChatUser> searchList = [];
 
   bool isSearching = false;
+
   @override
   void initState() {
     super.initState();
+    ZegoUIKitPrebuiltCallInvitationService().init(
+      appID: 642682133 /*input your AppID*/,
+      appSign: dotenv.env["ZEGO_APP_SIGN"].toString() /*input your AppSign*/,
+      userID: APIS.auth.currentUser!.uid.toString(),
+      userName: APIS.auth.currentUser!.displayName.toString(),
+      plugins: [ZegoUIKitSignalingPlugin()],
+      notifyWhenAppRunningInBackgroundOrQuit: true,
+      androidNotificationConfig: ZegoAndroidNotificationConfig(
+        channelID: "ZegoUIKit",
+        channelName: "Call Notifications",
+        sound: "notification",
+      ),
+      iOSNotificationConfig: ZegoIOSNotificationConfig(
+        isSandboxEnvironment: false,
+        systemCallingIconName: 'CallKitIcon',
+      ),
+    );
+
     APIS.selfInfo();
     // getPermissions();
     SystemChannels.lifecycle.setMessageHandler((message) async {

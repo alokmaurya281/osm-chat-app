@@ -44,7 +44,45 @@ class APIS {
             'body': 'New Message : $msg',
             'icon': me.image,
             "android_channel_id": "chats",
-          }
+          },
+        }),
+      );
+
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (response.statusCode == 200) {
+        print(data);
+      } else {
+        print('something is wrong');
+      }
+    } catch (e) {
+      // _isLoading = false;
+      print(e.toString());
+    }
+  }
+
+  static Future<void> sendCallPushNotifications(
+      ChatUser chatUser, String callid) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'key=${dotenv.env["FIREBASE_MESSAGING_KEY"]}',
+        },
+        body: jsonEncode({
+          'to': chatUser.pushToken,
+          'notification': {
+            'body': 'Incoming call : ${chatUser.name}',
+            // "android_channel_id": "calls",
+          },
+          'data': {
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            // 'status': 'done',
+            // 'screen': 'call_invite_screen', // Specify the screen to launch
+            'callId': callid,
+            'chatUser': chatUser,
+            // Include any additional data needed
+          },
         }),
       );
 
