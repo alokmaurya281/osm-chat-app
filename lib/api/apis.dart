@@ -221,6 +221,20 @@ class APIS {
         sendPushNotifications(chatuser, type == 'text' ? msg : 'Media'));
   }
 
+  static Future<void> addCall(
+    ChatUser chatuser,
+  ) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    final ref =
+        firestore.collection('calls/${getConversationId(chatuser.id)}/calls');
+    await ref.doc(time).set({
+      'toCall': chatuser.id,
+      'fromCall': user.uid,
+      'call_time': time,
+      'duration': '00:00:00'
+    });
+  }
+
   static Future<void> sendFirstMessage(
       ChatUser chatuser, String msg, String type) async {
     await firestore
