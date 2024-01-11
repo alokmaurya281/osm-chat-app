@@ -123,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(APIS.auth.currentUser);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       // ignore: deprecated_member_use

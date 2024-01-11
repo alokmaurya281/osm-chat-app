@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class HomeTabsView extends StatefulWidget {
@@ -17,8 +19,8 @@ class _HomeTabsViewState extends State<HomeTabsView> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('TabBar Example'),
-          bottom: TabBar(
+          title: const Text('TabBar Example'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Chats'),
               Tab(text: 'Status'),
@@ -26,7 +28,7 @@ class _HomeTabsViewState extends State<HomeTabsView> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             // Contents of Tab 1
             Center(

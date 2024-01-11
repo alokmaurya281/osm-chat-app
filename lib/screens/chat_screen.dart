@@ -9,13 +9,14 @@ import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/providers/chat_provider.dart';
-import 'package:osm_chat/screens/call_invite_screen.dart';
 import 'package:osm_chat/screens/chat_user_profile_view.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/message_card.dart';
 import 'package:provider/provider.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:zego_zpns/zego_zpns.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -391,11 +392,30 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: ZegoSendCallInvitationButton(
                         onWillPressed: () {
                           APIS.addCall(widget.user);
+                          ZPNsConfig zpnsConfig = ZPNsConfig();
+                          ZPNs.setPushConfig(zpnsConfig);
+                          ZPNs.enableDebug(true);
+                          ZPNs.getInstance().registerPush();
+                          ZIMPushConfig pushConfig = ZIMPushConfig();
+                          pushConfig.title = "Incoming call";
+                          pushConfig.content = "Call from ${APIS.user.uid}";
+                          ZIMMessageSendConfig sendConfig =
+                              ZIMMessageSendConfig();
+                          sendConfig.pushConfig = pushConfig;
+
+                          ZIM
+                              .getInstance()
+                              ?.sendPeerMessage(
+                                  ZIMTextMessage(message: 'Incoming call'),
+                                  widget.user.id,
+                                  sendConfig)
+                              .then((value) => {})
+                              .onError((error, stackTrace) => {});
                           return Future(() => true);
                         },
                         // buttonSize: Size(20, 20),
-                        margin: EdgeInsets.all(0),
-                        padding: EdgeInsets.all(0),
+                        margin: const EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         verticalLayout: true,
                         isVideoCall: true,
                         resourceID:
@@ -415,11 +435,30 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: ZegoSendCallInvitationButton(
                         onWillPressed: () {
                           APIS.addCall(widget.user);
+                          ZPNsConfig zpnsConfig = ZPNsConfig();
+                          ZPNs.setPushConfig(zpnsConfig);
+                          ZPNs.enableDebug(true);
+                          ZPNs.getInstance().registerPush();
+                          ZIMPushConfig pushConfig = ZIMPushConfig();
+                          pushConfig.title = "Incoming call";
+                          pushConfig.content = "Call from ${APIS.user.uid}";
+                          ZIMMessageSendConfig sendConfig =
+                              ZIMMessageSendConfig();
+                          sendConfig.pushConfig = pushConfig;
+
+                          ZIM
+                              .getInstance()
+                              ?.sendPeerMessage(
+                                  ZIMTextMessage(message: 'Incoming call'),
+                                  widget.user.id,
+                                  sendConfig)
+                              .then((value) => {})
+                              .onError((error, stackTrace) => {});
                           return Future(() => true);
                         },
                         // buttonSize: Size(20, 20),
-                        margin: EdgeInsets.all(0),
-                        padding: EdgeInsets.all(0),
+                        margin: const EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         verticalLayout: true,
                         isVideoCall: false,
                         resourceID:

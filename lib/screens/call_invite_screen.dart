@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/screens/video_call_screen.dart';
-import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class CallIniviteScreen extends StatefulWidget {
   final ChatUser chatUser;
