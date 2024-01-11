@@ -13,8 +13,8 @@ import 'package:osm_chat/routes/app_routes.dart';
 class LoginController extends CustomController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  RxString error = ''.obs;
-  RxBool isLoading = false.obs;
+  var error = ''.obs;
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -23,6 +23,8 @@ class LoginController extends CustomController {
 
   @override
   void onReady() {
+    error = 'awes'.obs;
+    log(error.value);
     super.onReady();
   }
 
@@ -45,13 +47,14 @@ class LoginController extends CustomController {
     isLoading = false.obs;
   }
 
-  handleEmailPasswordLogin(String email, String password) async {
-    error = ''.obs;
+  Future<void> handleEmailPasswordLogin(String email, String password) async {
+    // log('clicked');
+    isLoading = true.obs;
     try {
+      error = ''.obs;
       if (!kIsWeb) {
         await InternetAddress.lookup('google.com');
       }
-      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -60,16 +63,14 @@ class LoginController extends CustomController {
     } on SocketException catch (e) {
       print("SocketException: $e");
       error = 'No Internet'.obs;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        error = 'No user Found'.obs;
-      } else if (e.code == 'wrong-password') {
-        error = 'Wrong password'.obs;
-      }
+      log(e.toString());
     } catch (e) {
-      print(e);
-      error = 'Unknown error'.obs;
+      log(e.toString());
+      error = 'Invalid Credntials '.obs;
+      update();
     }
+    log('Error is this:::${error.value}');
+    isLoading = false.obs;
   }
 
   Future<UserCredential?> signInWithGoogle() async {
