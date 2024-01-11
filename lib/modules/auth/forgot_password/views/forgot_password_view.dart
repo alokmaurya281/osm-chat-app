@@ -6,7 +6,7 @@ import 'package:osm_chat/utils/dialogs.dart';
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
   const ForgotPasswordView({super.key});
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
@@ -63,7 +63,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                   child: TextFormField(
                     controller: controller.emailController,
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.background,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,

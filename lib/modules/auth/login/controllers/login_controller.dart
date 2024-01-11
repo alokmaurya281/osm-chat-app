@@ -13,12 +13,12 @@ import 'package:osm_chat/routes/app_routes.dart';
 class LoginController extends CustomController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  RxString error = ''.obs;
   RxBool isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    
   }
 
   @override
@@ -29,7 +29,6 @@ class LoginController extends CustomController {
   handleGoogleLoginButton() async {
     log('loginwithgoogle');
     isLoading = true.obs;
-    // // Dialogs.showProgressIndicator(context);
     signInWithGoogle().then((user) async {
       if (user != null) {
         log(user.user.toString());
@@ -39,12 +38,15 @@ class LoginController extends CustomController {
           await APIS.createUser();
           Get.offNamed(AppRoutes.home);
         }
+      } else {
+        error = 'Please Select account'.obs;
       }
     });
     isLoading = false.obs;
   }
 
   handleEmailPasswordLogin(String email, String password) async {
+    error = ''.obs;
     try {
       if (!kIsWeb) {
         await InternetAddress.lookup('google.com');
@@ -54,29 +56,24 @@ class LoginController extends CustomController {
         email: email,
         password: password,
       );
+      log(credential.toString());
     } on SocketException catch (e) {
       print("SocketException: $e");
-      Get.showSnackbar(
-        const GetSnackBar(message: 'No Internet'),
-      );
+      error = 'No Internet'.obs;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        Get.showSnackbar(
-          const GetSnackBar(message: 'No user Found'),
-        );
+        error = 'No user Found'.obs;
       } else if (e.code == 'wrong-password') {
-        Get.showSnackbar(
-          const GetSnackBar(
-            message: 'Wrong Password',
-          ),
-        );
+        error = 'Wrong password'.obs;
       }
     } catch (e) {
       print(e);
+      error = 'Unknown error'.obs;
     }
   }
 
   Future<UserCredential?> signInWithGoogle() async {
+    error = ''.obs;
     try {
       if (!kIsWeb) {
         await InternetAddress.lookup('google.com');
@@ -109,9 +106,10 @@ class LoginController extends CustomController {
     } on SocketException catch (e) {
       print("SocketException: $e");
       // Dialogs.showSnackBar(context, 'Please Connect to internet');
+      error = 'No Internet'.obs;
     } catch (e) {
       print(e);
-      // Dialogs.showSnackBar(context, 'Something is wrong Please try again');
+      error = 'Something went wrog'.obs;
     }
     return null;
   }
