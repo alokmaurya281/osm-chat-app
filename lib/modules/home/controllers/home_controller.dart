@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
@@ -35,28 +34,30 @@ class HomeController extends CustomController {
   }
 
   @override
+  // ignore: unnecessary_overrides
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
   }
 
   List<ChatUser> list = [];
-  final List<ChatUser> searchList = [];
+   List<ChatUser> searchList = [];
 
   RxBool isSearching = false.obs;
 
   void changeSearchMode() {
     isSearching.value = !isSearching.value;
+    update();
   }
 
   void search(value) {
-    searchList.clear(); // Clear the previous search results
-
+    searchList.clear();
+    update(); // Clear the previous search results
     for (var element in list) {
       if (element.name.toLowerCase().contains(value.toLowerCase()) ||
           element.email.toLowerCase().contains(value.toLowerCase())) {
         if (!searchList.contains(element)) {
           searchList.add(element);
+          update();
         }
       }
     }
