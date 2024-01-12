@@ -162,10 +162,8 @@ class LoginView extends GetView<LoginController> {
                   child: TextButton(
                     onPressed: () async {
                       // if (controller.isLoading.value) {
-                      Dialogs.showProgressIndicator(context);
                       // }
-                      await controller.handleGoogleLoginButton();
-                      Get.off(-1);
+                      await controller.handleGoogleLoginButton(context);
                       if (controller.error.value.isNotEmpty) {
                         // ignore: use_build_context_synchronously
                         Dialogs.showSnackBar(context, controller.error.value);

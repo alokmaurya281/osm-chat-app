@@ -11,25 +11,21 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     // print(APIS.auth.currentUser);
-    return GetBuilder<HomeController>(builder: (contrller) {
-      return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        // ignore: deprecated_member_use
-        child: WillPopScope(
-          onWillPop: () {
-            if (controller.isSearching) {
-              // setState(() {
-              //   isSearching = !isSearching;
-              // });
-              return Future.value(false);
-            } else {
-              return Future.value(true);
-            }
-          },
-          child: mainScaffoldHome(context),
-        ),
-      );
-    });
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      // ignore: deprecated_member_use
+      child: WillPopScope(
+        onWillPop: () {
+          if (controller.isSearching.value) {
+            controller.changeSearchMode();
+            return Future.value(false);
+          } else {
+            return Future.value(true);
+          }
+        },
+        child: mainScaffoldHome(context),
+      ),
+    );
   }
 
   Widget mainScaffoldHome(BuildContext context) {
@@ -38,28 +34,13 @@ class HomeView extends GetView<HomeController> {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          title: controller.isSearching
+          title: controller.isSearching.value
               ? TextFormField(
                   style:
                       TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                   autofocus: true,
                   onChanged: (value) {
-                    // setState(() {
-                    //   searchList.clear(); // Clear the previous search results
-
-                    //   for (var element in list) {
-                    //     if (element.name
-                    //             .toLowerCase()
-                    //             .contains(value.toLowerCase()) ||
-                    //         element.email
-                    //             .toLowerCase()
-                    //             .contains(value.toLowerCase())) {
-                    //       if (!searchList.contains(element)) {
-                    //         searchList.add(element);
-                    //       }
-                    //     }
-                    // }
-                    // });
+                    controller.search(value);
                   },
                   decoration: const InputDecoration(
                       border: InputBorder.none, hintText: 'Name or Email.....'),
@@ -70,11 +51,9 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.only(right: 8),
               child: IconButton(
                 onPressed: () {
-                  // setState(() {
-                  //   isSearching = !isSearching;
-                  // });
+                  controller.changeSearchMode();
                 },
-                icon: controller.isSearching
+                icon: controller.isSearching.value
                     ? const Icon(Icons.cancel)
                     : const Icon(
                         Icons.search,
@@ -91,7 +70,7 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Chats'),
               Tab(text: 'Status'),
@@ -130,7 +109,7 @@ class HomeView extends GetView<HomeController> {
               ListTile(
                 leading: const Icon(Icons.logout),
                 onTap: () async {
-                  // await signout();
+                  await controller.signout(context);
                 },
                 title: const Text(
                   'Logout',
@@ -199,16 +178,14 @@ class HomeView extends GetView<HomeController> {
                               return ListView.builder(
                                 padding: const EdgeInsets.only(top: 8),
                                 physics: const BouncingScrollPhysics(),
-                                // itemCount: controller.isSearching
-                                // ? controller.length
-                                // :
-                                // list.length,
+                                itemCount: controller.isSearching.value
+                                    ? controller.searchList.length
+                                    : list.length,
                                 itemBuilder: (context, index) {
                                   return ChatUserCardWidget(
-                                    // user: controller.isSearching
-                                    // ? searchList[index]
-                                    // :
-                                    user: list[index],
+                                    user: controller.isSearching.value
+                                        ? controller.searchList[index]
+                                        : list[index],
                                   );
                                 },
                               );
@@ -230,13 +207,23 @@ class HomeView extends GetView<HomeController> {
                 }
               },
             ),
-            Center(
-              child: Text('No Status'),
+            const Center(
+              child: Text(
+                'No Status',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             ),
 
             // Contents of Tab 3
-            Center(
-              child: Text('No Call History'),
+            const Center(
+              child: Text(
+                'No Call History',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ],
         ),

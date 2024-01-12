@@ -4,10 +4,11 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
-import 'package:osm_chat/screens/auth/login_screen.dart';
+import 'package:osm_chat/routes/app_routes.dart';
 import 'package:osm_chat/screens/profile_screen.dart';
 import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/widgets/chat_user_card.dart';
@@ -30,10 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await APIS.auth.signOut().then((value) async {
       await GoogleSignIn().signOut().then((value) async {
         Navigator.pop(context);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return const LoginScreen();
-        }));
+        Get.offNamed(AppRoutes.login);
       });
     });
     // ignore: use_build_context_synchronously

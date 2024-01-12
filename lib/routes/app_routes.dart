@@ -6,4 +6,6 @@ class AppRoutes {
   static const login = '/login';
   static const forgotpass = '/forgotpassword';
   static const home = '/home';
+    static const chatPage = '/chat_screen';
+
 }

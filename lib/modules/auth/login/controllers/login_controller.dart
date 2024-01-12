@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/modules/custom/controllers/custom_controller.dart';
 import 'package:osm_chat/routes/app_routes.dart';
+import 'package:osm_chat/utils/dialogs.dart';
 
 class LoginController extends CustomController {
   final TextEditingController emailController = TextEditingController();
@@ -28,9 +29,10 @@ class LoginController extends CustomController {
     super.onReady();
   }
 
-  handleGoogleLoginButton() async {
+  handleGoogleLoginButton(context) async {
     log('loginwithgoogle');
-    isLoading = true.obs;
+
+    Dialogs.showProgressIndicator(context);
     signInWithGoogle().then((user) async {
       if (user != null) {
         log(user.user.toString());
@@ -44,7 +46,7 @@ class LoginController extends CustomController {
         error = 'Please Select account'.obs;
       }
     });
-    isLoading = false.obs;
+    Navigator.pop(context);
   }
 
   Future<void> handleEmailPasswordLogin(String email, String password) async {
