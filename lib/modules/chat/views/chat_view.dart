@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +137,7 @@ class ChatView extends GetView<ChatController> {
                   hintText: 'Enter Message...',
                   suffixIcon: GestureDetector(
                     onTap: () {
-                      mediaModalBottomSheet();
+                      mediaModalBottomSheet(context);
                     },
                     child: const Icon(
                       Icons.attach_file,
@@ -192,8 +191,7 @@ class ChatView extends GetView<ChatController> {
     );
   }
 
-  void mediaModalBottomSheet() {
-    var context;
+  void mediaModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
         backgroundColor: const Color.fromARGB(255, 39, 58, 118),
         context: context,
@@ -344,8 +342,7 @@ class ChatView extends GetView<ChatController> {
         });
   }
 
-  void callsModal() {
-    var context;
+  void callsModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -559,7 +556,7 @@ class ChatView extends GetView<ChatController> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            callsModal();
+                            callsModal(context);
                           },
                           child: const Icon(
                             Icons.call,
