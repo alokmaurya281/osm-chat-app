@@ -10,6 +10,8 @@ import 'package:osm_chat/modules/chat/bindings/chat_binding.dart';
 import 'package:osm_chat/modules/chat/views/chat_view.dart';
 import 'package:osm_chat/modules/home/bindings/home_binding.dart';
 import 'package:osm_chat/modules/home/views/home_view.dart';
+import 'package:osm_chat/modules/profile/bindings/profile_binding.dart';
+import 'package:osm_chat/modules/profile/views/profile_view.dart';
 import 'package:osm_chat/routes/app_routes.dart';
 import 'package:osm_chat/screens/chat_screen.dart';
 
@@ -38,12 +40,14 @@ class AppPages {
       page: () => const HomeView(),
     ),
     GetPage(
-      
       name: AppRoutes.chatPage,
       binding: ChatBinding(),
-      // arguments: this.arg,
-      // parameters: ,
-      page: () =>  ChatView(),
+      page: () => const ChatView(),
+    ),
+    GetPage(
+      name: AppRoutes.profile,
+      binding: ProfileBinding(),
+      page: () => const ProfileView(),
     ),
   ];
 }

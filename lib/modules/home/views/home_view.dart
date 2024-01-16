@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/modules/home/controllers/home_controller.dart';
+import 'package:osm_chat/routes/app_routes.dart';
 import 'package:osm_chat/widgets/chat_user_card.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -118,10 +119,7 @@ class HomeView extends GetView<HomeController> {
                   ListTile(
                     leading: const Icon(Icons.person),
                     onTap: () {
-                      //   Navigator.pop(context);
-                      //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      //     return const ProfileScreen();
-                      //   }));
+                      Get.toNamed(AppRoutes.profile);
                     },
                     title: const Text(
                       'Profile',
