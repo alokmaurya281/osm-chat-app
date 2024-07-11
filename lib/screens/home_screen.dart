@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Chats'),
               Tab(text: 'Status'),
@@ -337,12 +337,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            Center(
+            const Center(
               child: Text('No Status'),
             ),
 
             // Contents of Tab 3
-            Center(
+            const Center(
               child: Text('No Call History'),
             ),
           ],

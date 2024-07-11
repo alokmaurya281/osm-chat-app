@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element, unnecessary_overrides
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

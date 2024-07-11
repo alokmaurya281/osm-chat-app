@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides, avoid_print
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -119,7 +121,6 @@ class LoginController extends CustomController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 }

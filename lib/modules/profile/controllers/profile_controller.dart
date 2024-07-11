@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,8 +17,6 @@ class ProfileController extends CustomController {
   Future<void> refreshData() async {
     await APIS.selfInfo();
   }
-
-
 
   Future<void> pickImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
@@ -44,7 +44,7 @@ class ProfileController extends CustomController {
     if (image != null) {
       pickedImage = image.path.obs;
       Dialogs.showProgressIndicator(context);
-      await APIS.updateProfilePicture(File(pickedImage!.value));
+      await APIS.updateProfilePicture(File(pickedImage.value));
       // await APIS.selfInfo();
       Navigator.pop(context);
       Navigator.pop(context);

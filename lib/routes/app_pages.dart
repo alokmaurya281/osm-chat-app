@@ -1,5 +1,4 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/modules/auth/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:osm_chat/modules/auth/forgot_password/views/forgot_password_view.dart';
 import 'package:osm_chat/modules/auth/login/bindings/login_binding.dart';
@@ -13,7 +12,6 @@ import 'package:osm_chat/modules/home/views/home_view.dart';
 import 'package:osm_chat/modules/profile/bindings/profile_binding.dart';
 import 'package:osm_chat/modules/profile/views/profile_view.dart';
 import 'package:osm_chat/routes/app_routes.dart';
-import 'package:osm_chat/screens/chat_screen.dart';
 
 class AppPages {
   static final initial = AppRoutes.initial;

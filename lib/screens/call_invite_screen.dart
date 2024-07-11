@@ -32,7 +32,6 @@ class _CallIniviteScreenState extends State<CallIniviteScreen> {
                   ),
                   borderRadius: BorderRadius.circular(100)),
               child: CircleAvatar(
-                // backgroundImage: C
                 backgroundImage: CachedNetworkImageProvider(
                   widget.chatUser.image,
                 ),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -108,7 +110,7 @@ class ProfileView extends GetView<ProfileController> {
                         context,
                         controller.nameController,
                         'Name',
-                        handleNameButton(context),
+                        handleNameButton,
                       );
                     },
                     icon: Icon(
@@ -163,11 +165,12 @@ class ProfileView extends GetView<ProfileController> {
                   IconButton(
                     onPressed: () {
                       controller.aboutController.text = APIS.me.about;
+                      // print(controller.aboutController.text);
                       Dialogs.showBottomModal(
                         context,
                         controller.aboutController,
                         'About',
-                        handleAboutButton(context),
+                        handleAboutButton,
                       );
                     },
                     icon: Icon(
@@ -185,7 +188,7 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  handleNameButton(BuildContext context) async {
+  void handleNameButton(BuildContext context) async {
     Dialogs.showProgressIndicator(context);
     await APIS
         .updateInfo(controller.nameController.text, 'name')
@@ -193,19 +196,19 @@ class ProfileView extends GetView<ProfileController> {
       APIS.me.name = controller.nameController.text;
       Navigator.pop(context);
       Navigator.pop(context);
-      Dialogs.showSnackBar(context, 'Profile Updated Successfylly');
+      Dialogs.showSnackBar(context, 'Profile Updated Successfully');
     });
   }
 
-  handleAboutButton(BuildContext context) async {
+  void handleAboutButton(BuildContext context) {
     Dialogs.showProgressIndicator(context);
-    await APIS
+    APIS
         .updateInfo(controller.aboutController.text, 'about')
         .then((value) async {
       APIS.me.about = controller.aboutController.text;
       Navigator.pop(context);
       Navigator.pop(context);
-      Dialogs.showSnackBar(context, 'Profile Updated Successfylly');
+      Dialogs.showSnackBar(context, 'Profile Updated Successfully');
     });
   }
 

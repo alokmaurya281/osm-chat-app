@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:osm_chat/modules/custom/bindings/custom_binding.dart';
@@ -17,6 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CustomController().initializeFirebase();
   ZPNsEventHandlerManager.loadingEventHandler();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
   ZegoUIKit().initLog().then((value) {

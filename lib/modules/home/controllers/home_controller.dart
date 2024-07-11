@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -34,7 +36,6 @@ class HomeController extends CustomController {
   }
 
   @override
-  // ignore: unnecessary_overrides
   void onReady() {
     super.onReady();
   }

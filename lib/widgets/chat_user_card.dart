@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/routes/app_routes.dart';
-import 'package:osm_chat/screens/chat_screen.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/dialogs/profile_dialog.dart';
 
@@ -29,10 +27,6 @@ class _ChatUserCardWidgetState extends State<ChatUserCardWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print(widget.user.name);
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        //   return ChatScreen(user: widget.user);
-        // }));
         Get.toNamed(AppRoutes.chatPage, arguments: widget.user);
       },
       child: Card(
@@ -50,7 +44,6 @@ class _ChatUserCardWidgetState extends State<ChatUserCardWidget> {
             }
 
             return ListTile(
-              // tileColor: Colors.black,
               leading: Container(
                 width: 50,
                 height: 50,

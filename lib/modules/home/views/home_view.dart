@@ -11,7 +11,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    // print(APIS.auth.currentUser);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       // ignore: deprecated_member_use
@@ -43,10 +42,6 @@ class HomeView extends GetView<HomeController> {
                           color: Theme.of(context).colorScheme.onPrimary),
                       autofocus: true,
                       onChanged: (value) {
-                        print(controller.isSearching.value);
-                        print('Search List ${controller.searchList}');
-                        print('toal List ${controller.list}');
-
                         controller.searchList.clear();
                         // Clear the previous search results
 

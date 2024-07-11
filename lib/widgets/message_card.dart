@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_element
 
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -306,7 +306,7 @@ class _MessageCardState extends State<MessageCard> {
     controller =
         VideoPlayerController.networkUrl(Uri.parse(widget.message.message));
     controller.initialize().then((value) {});
-    return Container(
+    return SizedBox(
       width: 250,
       height: 350,
       child: GestureDetector(

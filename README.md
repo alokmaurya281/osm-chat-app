@@ -1,4 +1,6 @@
-# osm_chat
+ ### OSM Chat App
+
+This is a Flutter application that provides a real-time chat and video calling feature. It uses the ZegoUIKitPrebuiltCall library for video calling and the ZegoUIKitSignalingPlugin for signaling. The app also uses the Firebase Realtime Database for storing user data and messages.
 
 A new Flutter project.
 

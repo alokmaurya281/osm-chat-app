@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -237,7 +239,7 @@ class ChatView extends GetView<ChatController> {
                             // });
                             await APIS.sendChatMedia(
                                 controller.user,
-                                File(controller.pickedImage.value!),
+                                File(controller.pickedImage.value),
                                 'document');
                           }
                           Navigator.pop(context);
@@ -286,13 +288,13 @@ class ChatView extends GetView<ChatController> {
 
                             if (imageMimeTypes.contains(ext)) {
                               await APIS.sendChatMedia(controller.user,
-                                  File(controller.pickedImage.value!), 'image');
+                                  File(controller.pickedImage.value), 'image');
                             } else if (videoMimeTypes.contains(ext)) {
                               await APIS.sendChatMedia(controller.user,
-                                  File(controller.pickedImage.value!), 'video');
+                                  File(controller.pickedImage.value), 'video');
                             } else {
                               await APIS.sendChatMedia(controller.user,
-                                  File(controller.pickedImage.value!), 'other');
+                                  File(controller.pickedImage.value), 'other');
                             }
                           }
                           Navigator.pop(context);
@@ -321,7 +323,7 @@ class ChatView extends GetView<ChatController> {
                             Navigator.pop(context);
 
                             await APIS.sendChatMedia(controller.user,
-                                File(controller.pickedImage.value!), 'image');
+                                File(controller.pickedImage.value), 'image');
 
                             Navigator.pop(context);
                           } else {

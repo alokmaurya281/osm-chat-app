@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/modules/custom/controllers/custom_controller.dart';
