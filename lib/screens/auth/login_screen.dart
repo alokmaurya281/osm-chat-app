@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         final GoogleSignInAccount? googleUser = await GoogleSignIn(
                 clientId:
-                    '468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com')
+                    '468365634295-1esqd7bch17d2v3ata2pn474u6ek0lq7.apps.googleusercontent.com')
             .signIn();
 
         // Obtain the auth details from the request
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("SocketException: $e");
       Dialogs.showSnackBar(context, 'Please Connect to internet');
     } catch (e) {
-      print(e);
+      print('erroe $e');
       Dialogs.showSnackBar(context, 'Something is wrong Please try again');
     }
     return null;

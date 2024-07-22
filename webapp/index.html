@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Firebase Account</title>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
+</head>
+<body>
+<h1>Delete Account</h1>
+<input type="email" id="email" placeholder="Email"><br>
+<input type="password" id="password" placeholder="Password"><br>
+<button id="deleteAccountBtn">Delete Account</button>
+
+<script>
+    // Replace with your Firebase project's configuration
+    onst firebaseConfig = {
+  apiKey: "AIzaSyC_gCl_AsVL0ZwOhIX4U2Pm4a9nL0d1J7A",
+  authDomain: "osm-chat-f2de7.firebaseapp.com",
+  projectId: "osm-chat-f2de7",
+  storageBucket: "osm-chat-f2de7.appspot.com",
+  messagingSenderId: "468365634295",
+  appId: "1:468365634295:web:a03351a62aeec3ff65c1f2",
+  measurementId: "G-EDW5PX0JHP"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Initialize Firebase Authentication and get a reference to the service
+    const auth = firebase.auth();
+
+    // Function to delete user account
+    const deleteAccount = async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            // Sign in the user with email and password
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+
+            // Delete the user's account
+            await user.delete();
+
+            alert('Account deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            alert('Error deleting account: ' + error.message);
+        }
+    };
+
+    // Add event listener to the delete button
+    document.getElementById('deleteAccountBtn').addEventListener('click', deleteAccount);
+</script>
+</body>
+</html>

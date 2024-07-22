@@ -145,7 +145,7 @@ _initializeFirebase() async {
   // ignore: no_leading_underscores_for_local_identifiers
   GoogleSignIn _googleSignIn = GoogleSignIn(
       clientId:
-          '468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com');
+          '468365634295-1esqd7bch17d2v3ata2pn474u6ek0lq7.apps.googleusercontent.com');
 
   if (!kIsWeb) {
     await FlutterDownloader.initialize(

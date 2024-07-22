@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "468365634295-1esqd7bch17d2v3ata2pn474u6ek0lq7.apps.googleusercontent.com",
+          "client_id": "468365634295-ka85ptmhg8tst6ct5k36ns4ulq99g6od.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.osm_chat.app",
-            "certificate_hash": "0ac07afa1b4f91b687ce7f043aaf85350e2a633a"
+            "certificate_hash": "0dbe50efb3d5a2e0cff6c73bc7aaff4404c2407a"
           }
         },
         {
