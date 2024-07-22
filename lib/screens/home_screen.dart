@@ -3,7 +3,6 @@ import 'dart:core';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/chatuser_model.dart';
@@ -49,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     ZegoUIKitPrebuiltCallInvitationService().init(
       appID: 642682133 /*input your AppID*/,
-      appSign: dotenv.env["ZEGO_APP_SIGN"].toString() /*input your AppSign*/,
+      appSign: '' /*input your AppSign*/,
       userID: APIS.auth.currentUser!.uid.toString(),
       userName: APIS.auth.currentUser!.displayName.toString(),
       plugins: [ZegoUIKitSignalingPlugin()],

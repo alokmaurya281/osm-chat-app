@@ -70,7 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '468365634295',
     projectId: 'osm-chat-f2de7',
     storageBucket: 'osm-chat-f2de7.appspot.com',
-    androidClientId: '468365634295-ia7djp80fbul2eer5fn7smm7l8dq4ct1.apps.googleusercontent.com',
+    androidClientId: '468365634295-1esqd7bch17d2v3ata2pn474u6ek0lq7.apps.googleusercontent.com',
     iosClientId: '468365634295-rjbvksopqoqr4bicnkbl6jev1gg11oi9.apps.googleusercontent.com',
     iosBundleId: 'com.example.osmChat',
   );
