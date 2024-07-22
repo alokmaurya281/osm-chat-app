@@ -1,4 +1,4 @@
-package com.example.osm_chat
+package com.osm_chat.app
 
 import io.flutter.embedding.android.FlutterActivity
 
