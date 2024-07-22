@@ -48,6 +48,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468365634295:android:3629252425d83b4365c1f2",
+        "android_client_info": {
+          "package_name": "com.osm_chat.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpEsedjrntUwO9aQlmD44ITx0wyLrR6C4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468365634295-h3e9mtkqnq2kkqng4t9a7ktnrsa66q1v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "468365634295-rjbvksopqoqr4bicnkbl6jev1gg11oi9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.osmChat"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

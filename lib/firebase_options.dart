@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCpEsedjrntUwO9aQlmD44ITx0wyLrR6C4',
-    appId: '1:468365634295:android:b55f4fadf2a3462e65c1f2',
+    appId: '1:468365634295:android:3629252425d83b4365c1f2',
     messagingSenderId: '468365634295',
     projectId: 'osm-chat-f2de7',
     storageBucket: 'osm-chat-f2de7.appspot.com',
@@ -74,4 +74,5 @@ class DefaultFirebaseOptions {
     iosClientId: '468365634295-rjbvksopqoqr4bicnkbl6jev1gg11oi9.apps.googleusercontent.com',
     iosBundleId: 'com.example.osmChat',
   );
+
 }
