@@ -4,6 +4,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,13 +15,13 @@ import 'package:osm_chat/screens/auth/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:osm_chat/screens/call_invite_screen.dart';
 import 'package:osm_chat/screens/home_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
-import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+// import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+// import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'firebase_options.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -29,11 +30,12 @@ void main() async {
 
   await _initializeFirebase();
 
-  ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
-  ZegoUIKit().initLog().then((value) {
-    ZegoUIKitPrebuiltCallInvitationService()
-        .useSystemCallingUI([ZegoUIKitSignalingPlugin()]);
-  });
+
+  // ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
+  // ZegoUIKit().initLog().then((value) {
+  //   ZegoUIKitPrebuiltCallInvitationService()
+  //       .useSystemCallingUI([ZegoUIKitSignalingPlugin()]);
+  // });
 
   runApp(
     MultiProvider(

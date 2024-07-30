@@ -15,7 +15,7 @@ import 'package:osm_chat/utils/dialogs.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/message_card.dart';
 import 'package:provider/provider.dart';
-import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+// import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -384,54 +384,54 @@ class _ChatScreenState extends State<ChatScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        await APIS.addCall(widget.user);
-                      },
-                      child: ZegoSendCallInvitationButton(
-                        onWillPressed: () {
-                          APIS.addCall(widget.user);
-                          return Future(() => true);
-                        },
-                        // buttonSize: Size(20, 20),
-                        margin: EdgeInsets.all(0),
-                        padding: EdgeInsets.all(0),
-                        verticalLayout: true,
-                        isVideoCall: true,
-                        resourceID:
-                            "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
-                        invitees: [
-                          ZegoUIKitUser(
-                            id: widget.user.id,
-                            name: widget.user.name,
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        await APIS.addCall(widget.user);
-                      },
-                      child: ZegoSendCallInvitationButton(
-                        onWillPressed: () {
-                          APIS.addCall(widget.user);
-                          return Future(() => true);
-                        },
-                        // buttonSize: Size(20, 20),
-                        margin: EdgeInsets.all(0),
-                        padding: EdgeInsets.all(0),
-                        verticalLayout: true,
-                        isVideoCall: false,
-                        resourceID:
-                            "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
-                        invitees: [
-                          ZegoUIKitUser(
-                            id: widget.user.id,
-                            name: widget.user.name,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     await APIS.addCall(widget.user);
+                    //   },
+                    //   child: ZegoSendCallInvitationButton(
+                    //     onWillPressed: () {
+                    //       APIS.addCall(widget.user);
+                    //       return Future(() => true);
+                    //     },
+                    //     // buttonSize: Size(20, 20),
+                    //     margin: EdgeInsets.all(0),
+                    //     padding: EdgeInsets.all(0),
+                    //     verticalLayout: true,
+                    //     isVideoCall: true,
+                    //     resourceID:
+                    //         "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
+                    //     invitees: [
+                    //       ZegoUIKitUser(
+                    //         id: widget.user.id,
+                    //         name: widget.user.name,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     await APIS.addCall(widget.user);
+                    //   },
+                    //   child: ZegoSendCallInvitationButton(
+                    //     onWillPressed: () {
+                    //       APIS.addCall(widget.user);
+                    //       return Future(() => true);
+                    //     },
+                    //     // buttonSize: Size(20, 20),
+                    //     margin: EdgeInsets.all(0),
+                    //     padding: EdgeInsets.all(0),
+                    //     verticalLayout: true,
+                    //     isVideoCall: false,
+                    //     resourceID:
+                    //         "zegouikit_call", //You need to use the resourceID that you created in the subsequent steps. Please continue reading this document.
+                    //     invitees: [
+                    //       ZegoUIKitUser(
+                    //         id: widget.user.id,
+                    //         name: widget.user.name,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

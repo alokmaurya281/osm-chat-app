@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:osm_chat/api/apis.dart';
 import 'package:osm_chat/models/message_model.dart';
 import 'package:osm_chat/utils/dialogs.dart';
+import 'package:osm_chat/utils/file_download.dart';
 import 'package:osm_chat/utils/my_date_util.dart';
 import 'package:osm_chat/widgets/dialogs/edit_message_dialog.dart';
 import 'package:osm_chat/widgets/image_view_widget.dart';
@@ -31,87 +31,114 @@ class _MessageCardState extends State<MessageCard> {
   bool isPlaying = false;
 
   void handleSaveButton() async {
-    final status = await Permission.manageExternalStorage.status;
-    if (status.isDenied) {
-      await Permission.manageExternalStorage.request();
-    }
-    if (widget.message.type == 'image') {
-      if (await Directory('storage/emulated/0/OsmChat/images/').exists()) {
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/images/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true
-          // click on notification to open downloaded file (for Android)
-        );
-      } else {
-        await Directory('storage/emulated/0/OsmChat/images')
-            .create(recursive: true);
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/images/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true,
-        );
+    try {
+      // Generate filename for image or video
+      final fileName = DownloaderCustom.getFileNameFromUrl(
+          widget.message.message);
+      var ext = fileName.split('.');
+      // // genrate random filename with osmchat prefix
+      // // genrate random string
+      String random = DownloaderCustom.generateRandomString(10);
+      String newFilename = 'osmchat_$random.${ext.last}';
+
+      // // Download the file based on type
+      if ( widget.message.type == 'video') {
+        await DownloaderCustom.downloadFile(widget.message.message, newFilename, isVideo: true);
+      } else if(widget.message.type == 'image') {
+        await DownloaderCustom.downloadFile(widget.message.message, newFilename, isImage: true);
+      }else{
+        await DownloaderCustom.downloadFile(widget.message.message, newFilename, );
+        // print('Unsupported file type: ${widget.message.type}');
       }
-    } else if (widget.message.type == 'video') {
-      if (await Directory('storage/emulated/0/OsmChat/videos/').exists()) {
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/videos/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true
-          // click on notification to open downloaded file (for Android)
-        );
-      } else {
-        await Directory('storage/emulated/0/OsmChat/videos/')
-            .create(recursive: true);
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/videos/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true,
-        );
-      }
-    } else {
-      if (await Directory('storage/emulated/0/OsmChat/other/').exists()) {
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/other/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true
-          // click on notification to open downloaded file (for Android)
-        );
-      } else {
-        await Directory('storage/emulated/0/OsmChat/other/')
-            .create(recursive: true);
-        final taskId = await FlutterDownloader.enqueue(
-          url: widget.message.message,
-          headers: {}, // optional: header send with url (auth token etc)
-          savedDir: '/storage/emulated/0/OsmChat/other/',
-          showNotification:
-              true, // show download progress in status bar (for Android)
-          openFileFromNotification: true,
-          // saveInPublicStorage: true,
-        );
-      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
+
+
+
+
+    // final status = await Permission.manageExternalStorage.status;
+    // if (status.isDenied) {
+    //   await Permission.manageExternalStorage.request();
+    // }
+    // if (widget.message.type == 'image') {
+    //   if (await Directory('storage/emulated/0/OsmChat/images/').exists()) {
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/images/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true
+    //       // click on notification to open downloaded file (for Android)
+    //     );
+    //   } else {
+    //     await Directory('storage/emulated/0/OsmChat/images')
+    //         .create(recursive: true);
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/images/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true,
+    //     );
+    //   }
+    // } else if (widget.message.type == 'video') {
+    //   if (await Directory('storage/emulated/0/OsmChat/videos/').exists()) {
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/videos/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true
+    //       // click on notification to open downloaded file (for Android)
+    //     );
+    //   } else {
+    //     await Directory('storage/emulated/0/OsmChat/videos/')
+    //         .create(recursive: true);
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/videos/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true,
+    //     );
+    //   }
+    // } else {
+    //   if (await Directory('storage/emulated/0/OsmChat/other/').exists()) {
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/other/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true
+    //       // click on notification to open downloaded file (for Android)
+    //     );
+    //   } else {
+    //     await Directory('storage/emulated/0/OsmChat/other/')
+    //         .create(recursive: true);
+    //     final taskId = await FlutterDownloader.enqueue(
+    //       url: widget.message.message,
+    //       headers: {}, // optional: header send with url (auth token etc)
+    //       savedDir: '/storage/emulated/0/OsmChat/other/',
+    //       showNotification:
+    //           true, // show download progress in status bar (for Android)
+    //       openFileFromNotification: true,
+    //       // saveInPublicStorage: true,
+    //     );
+    //   }
+    // }
+
 
   @override
   Widget build(BuildContext context) {

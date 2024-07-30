@@ -55,10 +55,12 @@ dependencies:
   path_provider: ^2.1.1
   flutter_downloader: ^1.11.4
   video_player: ^2.8.1
-  zego_uikit_prebuilt_call: ^3.18.1
-  zego_uikit_signaling_plugin: ^2.7.2
+#  zego_uikit_prebuilt_call: ^3.18.1
+#  zego_uikit_signaling_plugin: ^2.7.2
   awesome_notifications: ^0.8.2
-  zego_zpns: ^2.2.0
+  device_info_plus: ^10.1.1
+  app_settings: ^5.1.1
+#  zego_zpns: ^2.2.0
 
 dev_dependencies:
   flutter_test:
