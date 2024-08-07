@@ -17,7 +17,7 @@
 
 
     <application
-        android:label="Osm Chat"
+        android:label="Chaties"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
