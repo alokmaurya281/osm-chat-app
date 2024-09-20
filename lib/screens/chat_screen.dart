@@ -58,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-            toolbarHeight: 70,
+            toolbarHeight: 75,
             automaticallyImplyLeading: false,
             flexibleSpace: _appBar(),
           ),
